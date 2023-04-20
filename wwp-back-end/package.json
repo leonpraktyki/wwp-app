@@ -10,15 +10,21 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^4.13.0",
     "koa": "^2.14.2",
     "koa-bodyparser": "^4.4.0",
     "koa-json": "^2.0.2",
     "koa-logger": "^3.2.1",
-    "koa-router": "^12.0.0"
+    "koa-router": "^12.0.0",
+    "osm-pbf-parser": "^2.3.0",
+    "osm-pbf-parser-node": "^1.1.0",
+    "osm-read": "^0.7.0"
   },
   "devDependencies": {
     "@types/koa": "^2.13.6",
+    "@types/koa-bodyparser": "^4.3.10",
     "@types/koa-json": "^2.0.20",
-    "@types/koa-router": "^7.4.4"
+    "@types/koa-router": "^7.4.4",
+    "prisma": "^4.13.0"
   }
 }
