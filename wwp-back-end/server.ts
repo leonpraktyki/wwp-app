@@ -11,7 +11,7 @@ const prisma = new PrismaClient();
 router.get("/find", async (ctx, next) => {
   console.log(ctx.request.body);
 
-  const user = await prisma.planet_osm_point.findFirst({ skip: 3 });
+  const user = await prisma.spatial_ref_sys.findFirst();
 
   ctx.body = user;
   await next();
