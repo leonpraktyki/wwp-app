@@ -17,6 +17,12 @@ interface IRestaurant {
 }
 
 router.get("/find", async (ctx, next) => {
+  // console.log(`[${new Date()}] ${ctx.query}`);
+
+  const today = new Date().toLocaleString();
+
+  console.log(today, JSON.stringify(ctx.query));
+
   const inputSchema = z.object({
     type: z.string().toLowerCase(),
     longtitude: z.string().transform((v) => parseFloat(v)),
@@ -35,7 +41,7 @@ router.get("/find", async (ctx, next) => {
 
   const { data } = input;
 
-  const restaurants: IRestaurant[] = await prisma.$queryRaw`
+  const results: IRestaurant[] = await prisma.$queryRaw`
   SELECT
     CAST(osm_id as Float),
     amenity,
@@ -46,8 +52,7 @@ router.get("/find", async (ctx, next) => {
     AND ST_DWithin(way, ST_Transform(ST_SetSRID(ST_Point(${data.longtitude}, ${data.latitude}),4326), 3857), ${data.radius});
   `;
 
-  console.log(restaurants);
-  ctx.body = { success: true, message: "", data: restaurants };
+  ctx.body = { success: true, message: "", data: results };
   await next();
 });
 
