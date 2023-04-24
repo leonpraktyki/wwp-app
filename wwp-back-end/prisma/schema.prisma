@@ -9,7 +9,7 @@ datasource db {
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model planet_osm_line {
-  osm_id             BigInt?
+  osm_id             Int?
   access             String?
   addr_housename     String?                  @map("addr:housename")
   addr_housenumber   String?                  @map("addr:housenumber")
@@ -78,14 +78,14 @@ model planet_osm_line {
   z_order            Int?
   way_area           Float?                   @db.Real
   way                Unsupported("geometry")?
+  id                 Int                      @id @default(autoincrement())
 
   @@index([way], type: Gist)
-  @@ignore
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model planet_osm_point {
-  osm_id             BigInt?
+  osm_id             Int?
   access             String?
   addr_housename     String?                  @map("addr:housename")
   addr_housenumber   String?                  @map("addr:housenumber")
@@ -154,14 +154,14 @@ model planet_osm_point {
   wood               String?
   z_order            Int?
   way                Unsupported("geometry")?
+  id                 Int                      @id @unique(map: "planet_osm_point_id_idx") @default(autoincrement())
 
   @@index([way], type: Gist)
-  @@ignore
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model planet_osm_polygon {
-  osm_id             BigInt?
+  osm_id             Int?
   access             String?
   addr_housename     String?                  @map("addr:housename")
   addr_housenumber   String?                  @map("addr:housenumber")
@@ -230,14 +230,14 @@ model planet_osm_polygon {
   z_order            Int?
   way_area           Float?                   @db.Real
   way                Unsupported("geometry")?
+  id                 Int                      @id @default(autoincrement())
 
   @@index([way], type: Gist)
-  @@ignore
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model planet_osm_roads {
-  osm_id             BigInt?
+  osm_id             Int?
   access             String?
   addr_housename     String?                  @map("addr:housename")
   addr_housenumber   String?                  @map("addr:housenumber")
@@ -306,9 +306,9 @@ model planet_osm_roads {
   z_order            Int?
   way_area           Float?                   @db.Real
   way                Unsupported("geometry")?
+  id                 Int                      @id @default(autoincrement())
 
   @@index([way], type: Gist)
-  @@ignore
 }
 
 model spatial_ref_sys {
