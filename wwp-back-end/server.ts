@@ -9,11 +9,11 @@ const app = new Koa();
 const router = new Router();
 const prisma = new PrismaClient();
 
-interface IRestaurant {
-  osm_id: bigint;
+interface IResult {
+  osm_id: number;
   name: string;
   amenity: string;
-  way: string;
+  location: string;
 }
 
 router.get("/find", async (ctx, next) => {
@@ -41,7 +41,7 @@ router.get("/find", async (ctx, next) => {
 
   const { data } = input;
 
-  const results: IRestaurant[] = await prisma.$queryRaw`
+  const results: IResult[] = await prisma.$queryRaw`
   SELECT
     CAST(osm_id as Float),
     amenity,
