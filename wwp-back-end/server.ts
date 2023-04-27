@@ -1,6 +1,7 @@
 import bodyParser from "koa-bodyparser";
 import Router from "koa-router";
 import Koa from "koa";
+import cors from "@koa/cors";
 
 import { PrismaClient } from "@prisma/client";
 import { z } from "zod";
@@ -58,6 +59,7 @@ router.get("/find", async (ctx, next) => {
 
 app.use(bodyParser());
 app.use(router.routes()).use(router.allowedMethods());
+app.use(cors());
 
 app.listen(3000, async () => {
   await prisma.$connect();
