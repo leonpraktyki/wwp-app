@@ -10,7 +10,7 @@
 
 Instalacja front-endu:
 
-- `cd wwp-front-end`
+- `cd wwp-frontend`
 - `npm install`
 - `npm run dev`
 
