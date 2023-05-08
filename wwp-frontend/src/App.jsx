@@ -6,6 +6,7 @@ function App() {
   const [results, setResults] = React.useState([]);
 
   const [city, setCity] = React.useState("");
+  const [currentCity, setCurrentCity] = React.useState("");
   const [objectType, setObjectType] = React.useState("");
   const [radius, setRadius] = React.useState("");
 
@@ -25,24 +26,30 @@ function App() {
     return deg * (Math.PI / 180);
   };
 
-  React.useEffect(() => {
-    axios
-      .get("http://localhost:3000/find?type=restaurant&longtitude=20.4987767&latitude=53.76849109915039&radius=1500")
-      .then((res) => {
-        setResults(res.data.data);
-      });
-  }, []);
-
   const submitForm = (e) => {
     e.preventDefault();
+
+    let cityLat = city.split(" ")[0];
+    let cityLon = city.split(" ")[1];
+
     axios
       .get(
         `http://localhost:3000/find?type=${objectType}&longtitude=${city.split(" ")[1]}&latitude=${
           city.split(" ")[0]
-        }&radius=${radius}`
+        }&radius=${radius * 1000}`
       )
       .then((res) => {
         setResults(res.data.data);
+        setCurrentCity(city);
+        let objLat = res.data.data[0].location.split("(")[1].split(" ")[1].replaceAll(")", "");
+        let objLon = res.data.data[0].location.split("(")[1].split(" ")[0];
+
+        objLat = parseFloat(objLat);
+        objLon = parseFloat(objLon);
+
+        const d = getDistanceFromLatLonInKm(objLat, objLon, parseFloat(cityLat), parseFloat(cityLon));
+
+        console.log(d);
       });
   };
 
@@ -101,8 +108,16 @@ function App() {
             {results.map((result) => {
               return (
                 <div>
-                  {result.name}
-                  <div>{result.location.split("(")[1].split(" ")[0]}</div>
+                  <b>{result.name ?? "Brak nazwy"} </b>
+                  {Math.round(
+                    getDistanceFromLatLonInKm(
+                      parseFloat(result.location.split("(")[1].split(" ")[1]),
+                      parseFloat(result.location.split("(")[1].split(" ")[0].replaceAll(")", "")),
+                      parseFloat(currentCity.split(" ")[0]),
+                      parseFloat(currentCity.split(" ")[1])
+                    ) * 100
+                  ) / 100}
+                  KM
                 </div>
               );
             })}
